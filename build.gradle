@@ -20,8 +20,18 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.7'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	jar {
+		from {
+			configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+		}
+	}
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('jar') {
+	duplicatesStrategy = 'include'
 }
