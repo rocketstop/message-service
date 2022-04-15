@@ -10,12 +10,12 @@ phases:
       - ./gradlew test
   build:
     commands:
-      - echo Build completed on `data`
+      - echo Build completed on `date`
       - ./gradlew build
   post_build:
     commands:
-      - echo Build completed on `data`
+      - echo Build completed on `date`
 artifacts:
   files:
-    - target/*.jar
+    - build/libs/*SNAPSHOT.jar
   discard-paths: yes
