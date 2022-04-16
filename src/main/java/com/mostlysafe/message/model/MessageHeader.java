@@ -1,5 +1,7 @@
 package com.mostlysafe.message.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +14,7 @@ public class MessageHeader {
     private Date received;
     private Date read;
     private Date deleted;
-    private Message message;
+    private String messageId;
 
     public MessageHeader() {}
 
@@ -21,18 +23,22 @@ public class MessageHeader {
                          Date received,
                          Date read,
                          Date deleted,
-                         Message message) {
+                         String messageId) {
         this.recipient = recipient;
         this.method = method;
         this.received = received;
         this.read = read;
         this.deleted = deleted;
-        this.message = message;
+        this.messageId = messageId;
 
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getRecipient() {
@@ -75,12 +81,12 @@ public class MessageHeader {
         this.deleted = deleted;
     }
 
-    public Message getMessage(){
-        return this.message;
+    public String getMessageId(){
+        return this.messageId;
     }
 
-    public void setMessage(Message message) {
-        this.message = message;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     @Override

@@ -76,7 +76,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Todo{" +
+        return "Message{" +
                 "id=" + id +
                 ", subject='" + subject + '\'' +
                 ", body='" + body + '\'' +

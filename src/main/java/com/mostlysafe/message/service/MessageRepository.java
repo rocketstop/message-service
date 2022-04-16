@@ -10,8 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.mostlysafe.message.MessageController;
 import com.mostlysafe.message.model.Message;
 import com.mostlysafe.message.model.MessageHeader;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -47,12 +49,29 @@ public class MessageRepository {
             return;
         }
 
+        for (MessageHeader h: message.getHeaders()){
+            if (null == h.getId() || h.getId().trim().isEmpty()){
+                h.setId(UUID.randomUUID().toString());
+            }
+
+            h.setMessageId(message.getId());
+        }
+
         messageStore.put(message.getId(), message);
     }
 
     public Message updateMessage(String messageId, Message message){
-        if (messageStore.containsKey(message.getId())) {
-            messageStore.put(message.getId(), message);
+
+        if (null == message.getId() || message.getId().trim().isEmpty()) {
+            message.setId(messageId);
+        }
+
+        if (messageId.equals(message.getId())){
+            if (messageStore.containsKey(messageId)) {
+
+                Message currentMessage = messageStore.get(messageId);
+                BeanUtils.copyProperties(message, currentMessage);
+            }
         }
         return message;
     }

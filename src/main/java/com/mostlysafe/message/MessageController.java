@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import com.mostlysafe.message.model.Message;
 import com.mostlysafe.message.service.MessageRepository;
 import com.mostlysafe.message.service.MessageSender;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name= "message", description= "An api for retrieving, managing, and sending messages")
 public class MessageController {
 
     protected Logger logger = Logger.getLogger(getClass().getName());
@@ -32,6 +35,9 @@ public class MessageController {
      * Get all messages
      * @return
      */
+    @Operation(summary = "Retrieve all messages",
+            description = "Retrieve all messages",
+            tags = { "message" })
     @RequestMapping(
             value= "/messages",
             method= RequestMethod.GET,
@@ -50,6 +56,9 @@ public class MessageController {
      * @param messageId
      * @return
      */
+    @Operation(summary = "Retrieve a single message by %messageId%",
+            description = "Retrieves a single message by %messageId%",
+            tags = { "message" })
     @RequestMapping(
             value= "/message/{messageId}",
             method= RequestMethod.GET,
@@ -63,10 +72,14 @@ public class MessageController {
 
         return message;
     }
-
+    @Operation(summary = "Update the message with a given %messageId%",
+            description = "Updates a message by merging the current state of the message " +
+                    "identified by %messageId% with the state of the message provided in the request body. " +
+                    "This method will ignore any id updates.",
+            tags = { "message" })
     @RequestMapping(
             value= "/message/{messageId}",
-            method= RequestMethod.PUT,
+            method= RequestMethod.PATCH,
             consumes= "application/json",
             produces= "application/json"
     )
@@ -84,6 +97,9 @@ public class MessageController {
      * @param messageId
      * @return
      */
+    @Operation(summary = "Deletes a single message with given %messageId%",
+            description = "Deletes a single message with given %messageId%",
+            tags = { "message" })
     @RequestMapping(
             value = "/message/{messageId}",
             method= RequestMethod.DELETE,
@@ -103,6 +119,11 @@ public class MessageController {
      * @param message
      * @return
      */
+    @Operation(summary = "Create a message using the supplied message attributes",
+            description = "Create a message using the supplied message attributes " +
+                    "Object ids (message and header) are optional and will be " +
+                    "auto-generated if not provided",
+            tags = { "message" })
     @RequestMapping(
             value= "/message",
             method= RequestMethod.POST,
@@ -122,6 +143,9 @@ public class MessageController {
      * @param senderId
      * @return
      */
+    @Operation(summary = "Retrieve all messages sent by a specific sender",
+            description = "Retrieve all messages sent by a specific sender",
+            tags = { "message" })
     @RequestMapping(value="/message/{senderId}/findBySender",
             method= RequestMethod.GET,
             produces= "application/json"
@@ -140,6 +164,9 @@ public class MessageController {
      * @param recipientId
      * @return
      */
+    @Operation(summary = "Retrieves all messages for a given recipient",
+            description = "Retrieves all messages for a given recipient",
+            tags = { "message" })
     @RequestMapping(
             value="/message/{recipientId}/findByRecipient",
             method= RequestMethod.GET,
@@ -159,6 +186,11 @@ public class MessageController {
      * @param message
      * @return
      */
+    @Operation(summary = "Creates and sends a message",
+            description = "Creates and sends a message, " +
+                    "Object ids (message and header) are optional and will be " +
+                    "auto-generated if not provided",
+            tags = { "message" })
     @RequestMapping(
             value="/message/send",
             method= RequestMethod.POST,
