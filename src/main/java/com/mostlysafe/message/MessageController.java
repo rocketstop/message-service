@@ -32,7 +32,11 @@ public class MessageController {
      * Get all messages
      * @return
      */
-    @RequestMapping("/messages")
+    @RequestMapping(
+            value= "/messages",
+            method= RequestMethod.GET,
+            produces= "application/json"
+    )
     public List<Message> getAll() {
         logger.info("message-service getAll() invoked.");
         List<Message> messageList = messageRepository.getAll();
@@ -46,7 +50,11 @@ public class MessageController {
      * @param messageId
      * @return
      */
-    @RequestMapping("/message/{messageId}")
+    @RequestMapping(
+            value= "/message/{messageId}",
+            method= RequestMethod.GET,
+            produces= "application/json"
+    )
     public Message findById(@PathVariable("messageId") String messageId){
         logger.info("message-service findById() invoked.");
         Message message = messageRepository.findById(messageId)
@@ -56,7 +64,31 @@ public class MessageController {
         return message;
     }
 
-    @RequestMapping(value = "/message/{messageId}", method= RequestMethod.DELETE)
+    @RequestMapping(
+            value= "/message/{messageId}",
+            method= RequestMethod.PUT,
+            consumes= "application/json",
+            produces= "application/json"
+    )
+    public Message updateMessage(@PathVariable("messageId") String messageId,
+                                 @RequestBody Message message){
+        logger.info("message-service updateMessage() invoked.");
+        Message newMessage = messageRepository.updateMessage(messageId, message);
+        logger.info("message-service updateMessage() found: "+ message);
+
+        return newMessage;
+    }
+
+    /***
+     * Delete a message
+     * @param messageId
+     * @return
+     */
+    @RequestMapping(
+            value = "/message/{messageId}",
+            method= RequestMethod.DELETE,
+            produces= "application/json"
+    )
     public Message deleteMessage(@PathVariable("messageId") String messageId){
         logger.info("message-service deleteMessage() invoked.");
         Message message = messageRepository.deleteMessage(messageId)
@@ -71,7 +103,12 @@ public class MessageController {
      * @param message
      * @return
      */
-    @RequestMapping(value= "/message", method= RequestMethod.POST)
+    @RequestMapping(
+            value= "/message",
+            method= RequestMethod.POST,
+            consumes= "application/json",
+            produces= "application/json"
+    )
     public Message addNewMessage(@RequestBody Message message){
         logger.info("creating new message.");
         messageRepository.addMessage(message);
@@ -85,7 +122,10 @@ public class MessageController {
      * @param senderId
      * @return
      */
-    @RequestMapping(value="/message/{senderId}/findBySender")
+    @RequestMapping(value="/message/{senderId}/findBySender",
+            method= RequestMethod.GET,
+            produces= "application/json"
+    )
     public List<Message> findBySender(@PathVariable("senderId") String senderId){
         logger.info("message-service findBySender() invoked.");
         List<Message> messageList = messageRepository.findBySender(senderId);
@@ -100,7 +140,11 @@ public class MessageController {
      * @param recipientId
      * @return
      */
-    @RequestMapping(value="/message/{recipientId}/findByRecipient")
+    @RequestMapping(
+            value="/message/{recipientId}/findByRecipient",
+            method= RequestMethod.GET,
+            produces= "application/json"
+    )
     public List<Message> findByRecipient(@PathVariable("recipientId") String recipientId){
         logger.info("message-service findByRecipient() invoked.");
         List<Message> messageList = messageRepository.findByRecipient(recipientId);
@@ -115,10 +159,15 @@ public class MessageController {
      * @param message
      * @return
      */
-    @RequestMapping(value="/message/send")
+    @RequestMapping(
+            value="/message/send",
+            method= RequestMethod.POST,
+            consumes= "application/json",
+            produces= "application/json"
+    )
     public Message sendNewMessage(@RequestBody Message message){
         logger.info("creating new message.");
-        messageRepository.addMessage(message);  
+        messageRepository.addMessage(message);
         logger.info("New Message created: "+ message.getId());
         messageSender.send(message.getId());
 

@@ -50,6 +50,13 @@ public class MessageRepository {
         messageStore.put(message.getId(), message);
     }
 
+    public Message updateMessage(String messageId, Message message){
+        if (messageStore.containsKey(message.getId())) {
+            messageStore.put(message.getId(), message);
+        }
+        return message;
+    }
+
     public List<Message> findBySender(String senderId) {
         List<Message> messages = messageStore.values().stream()
                 .filter(m -> m.getSender().equals(senderId))
