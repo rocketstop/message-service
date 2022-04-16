@@ -1,30 +1,38 @@
 package com.mostlysafe.message.model;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class MessageBody {
+public class Message {
 
     private String id;
     private String sender;
     private String subject;
     private String body;
+    private Date sent;
     private List<MessageHeader> headers;
 
-    public MessageBody(){}
+    public Message(){}
 
-    public MessageBody(String sender,
-                       String subject,
-                       String body,
-                       List<MessageHeader> headers){
+    public Message(String sender,
+                   String subject,
+                   String body,
+                   Date sent,
+                   List<MessageHeader> headers){
         this.sender = sender;
         this.subject= subject;
         this.body = body;
+        this.sent = sent;
         this.headers = headers;
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 
     public String getSender() {
@@ -49,6 +57,13 @@ public class MessageBody {
 
     public void setBody(final String body) {
         this.body = body;
+    }
+    public Date getSent() {
+        return sent;
+    }
+
+    public void setSent(Date sent) {
+        this.sent = sent;
     }
 
     public List<MessageHeader> getHeaders() {
@@ -76,7 +91,7 @@ public class MessageBody {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final MessageBody that = (MessageBody) o;
+        final Message that = (Message) o;
         return Objects.equals(id, that.id)
                 && Objects.equals(sender, that.sender)
                 && Objects.equals(subject, that.subject)
