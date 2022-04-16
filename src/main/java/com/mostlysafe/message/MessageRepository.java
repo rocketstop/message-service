@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.mostlysafe.message.model.MessageBody;
 import org.springframework.stereotype.Component;
 
 @Component

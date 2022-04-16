@@ -1,5 +1,6 @@
-package com.mostlysafe.message;
+package com.mostlysafe.message.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MessageBody {
@@ -8,13 +9,18 @@ public class MessageBody {
     private String sender;
     private String subject;
     private String body;
+    private List<MessageHeader> headers;
 
     public MessageBody(){}
 
-    public MessageBody(String sender, String subject, String body){
+    public MessageBody(String sender,
+                       String subject,
+                       String body,
+                       List<MessageHeader> headers){
         this.sender = sender;
         this.subject= subject;
         this.body = body;
+        this.headers = headers;
     }
 
     public String getId() {
@@ -43,6 +49,14 @@ public class MessageBody {
 
     public void setBody(final String body) {
         this.body = body;
+    }
+
+    public List<MessageHeader> getHeaders() {
+        return this.headers;
+    }
+
+    public void setHeaders(List<MessageHeader> headers) {
+        this.headers = headers;
     }
 
     @Override

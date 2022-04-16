@@ -1,4 +1,4 @@
-package com.mostlysafe.message;
+package com.mostlysafe.message.model;
 
 import java.util.Date;
 import java.util.Objects;
@@ -10,14 +10,20 @@ public class MessageHeader {
     private Date received;
     private Date read;
     private Date deleted;
+    private MessageBody message;
 
     public MessageHeader() {}
 
-    public MessageHeader(String recipient, Date received, Date read, Date deleted) {
+    public MessageHeader(String recipient,
+                         Date received,
+                         Date read,
+                         Date deleted,
+                         MessageBody message) {
         this.recipient = recipient;
         this.received = received;
         this.read = read;
         this.deleted = deleted;
+        this.message = message;
 
     }
 
@@ -55,6 +61,14 @@ public class MessageHeader {
 
     public void setDeleted(final Date deleted) {
         this.deleted = deleted;
+    }
+
+    public MessageBody getMessage(){
+        return this.message;
+    }
+
+    public void setMessage(MessageBody message) {
+        this.message = message;
     }
 
     @Override
