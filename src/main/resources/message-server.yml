@@ -7,6 +7,10 @@ spring:
 server.port: 2222   # HTTP (Tomcat) port
 server.servlet.context-path: /api
 
+
 # Enable actuator access without security checks - DEVELOPMENT ONLY
 # Spring Boot 2.x
 management.endpoints.web.exposure.include: '*'
+
+# springdoc settings
+springdoc.api-docs.path: /docs

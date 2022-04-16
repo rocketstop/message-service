@@ -1,23 +1,33 @@
-package com.mostlysafe.message;
+package com.mostlysafe.message.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class MessageHeader {
 
     private String id;
     private String recipient;
+    private List<String> method;
     private Date received;
     private Date read;
     private Date deleted;
+    private Message message;
 
     public MessageHeader() {}
 
-    public MessageHeader(String recipient, Date received, Date read, Date deleted) {
+    public MessageHeader(String recipient,
+                         List<String> method,
+                         Date received,
+                         Date read,
+                         Date deleted,
+                         Message message) {
         this.recipient = recipient;
+        this.method = method;
         this.received = received;
         this.read = read;
         this.deleted = deleted;
+        this.message = message;
 
     }
 
@@ -31,6 +41,14 @@ public class MessageHeader {
 
     public void setRecipient(final String recipient) {
         this.recipient = recipient;
+    }
+
+    public List<String> getMethod() {
+        return method;
+    }
+
+    public void setMethod(final List<String> method) {
+        this.method = method;
     }
 
     public Date getReceived() {
@@ -55,6 +73,14 @@ public class MessageHeader {
 
     public void setDeleted(final Date deleted) {
         this.deleted = deleted;
+    }
+
+    public Message getMessage(){
+        return this.message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     @Override
