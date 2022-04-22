@@ -1,4 +1,4 @@
-package com.mostlysafe.message;
+package com.mostlysafe;
 
 import java.util.logging.Logger;
 import org.springframework.context.annotation.Configuration;
