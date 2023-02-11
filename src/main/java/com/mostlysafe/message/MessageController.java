@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name= "message", description= "An api for retrieving, managing, and sending messages")
 public class MessageController {
 
-    protected Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
     MessageRepository messageRepository;
     MessageSender messageSender;
 

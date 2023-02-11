@@ -2,15 +2,12 @@ package com.mostlysafe.message.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.mostlysafe.message.MessageController;
 import com.mostlysafe.message.model.Message;
 import com.mostlysafe.message.model.MessageHeader;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageRepository {
 
-    protected Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private final ConcurrentHashMap<String, Message> messageStore;
 
     public MessageRepository() {
@@ -85,10 +82,19 @@ public class MessageRepository {
     }
 
     public List<Message> findByRecipient(String recipientId) {
-        List<Message> messages = messageStore.values().stream()
-                .filter(m -> m.getHeaders().stream().anyMatch(h -> h.getRecipient().equals(recipientId)))
+        List<MessageHeader> matchingHeaders = messageStore.values().stream()
+                .flatMap(m -> m.getHeaders().stream())
+                .filter(h -> h.getRecipient().equals(recipientId))
                 .collect(Collectors.toList());
 
-        return messages;
+        logger.info("matching headers: "+ matchingHeaders);
+
+        return matchingHeaders.stream()
+                .map(MessageHeader::getMessageId)
+                .map(messageStore::get)
+                .collect(Collectors.toList());
+
     }
 }
+
+// TODO: findByRecipient returns all headers, should it only return headers for the recipient?
